@@ -5,22 +5,22 @@
     "description": "Reads the HTML of the current page",
     "permissions": ["activeTab", "scripting"],
     "host_permissions": [
-        "http://*/*",
-        "https://*/*"
+        "http://youtube/*",
+        "https://youtube/*"
       ],
     "action": {
-      "default_popup": "popup/popup.html",
-      "default_icon": {
-        "16": "assets/images/Domestic_Goose.jpg",
-        "48": "assets/images/Domestic_Goose.jpg",
-        "128": "assets/images/Domestic_Goose.jpg"
-      }
+      "default_popup": "popup/popup.html"
     },
     "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content_scripts/content.js"]
-      }
+        {
+            "matches": [
+                "http://youtube/*",
+                "https://youtube/*",
+                "http://www.youtube.com/*",
+                "https://www.youtube.com/*"
+            ],
+            "js": ["content_scripts/content.js"]
+        }
     ]
   }
   
