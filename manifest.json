@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "HTML Reader",
+    "version": "1.0",
+    "description": "Reads the HTML of the current page",
+    "permissions": ["activeTab", "scripting"],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
+      ],
+    "action": {
+      "default_popup": "popup/popup.html",
+      "default_icon": {
+        "16": "assets/images/Domestic_Goose.jpg",
+        "48": "assets/images/Domestic_Goose.jpg",
+        "128": "assets/images/Domestic_Goose.jpg"
+      }
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content_scripts/content.js"]
+      }
+    ]
+  }
+  
