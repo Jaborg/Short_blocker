@@ -1,22 +1,36 @@
-console.log("Content script started");
+console.log("Content script loaded");
 
-// Find the specific span element with id="title" and content "Shorts"
+function removeShorts() {
+    let targetSpan = Array.from(document.querySelectorAll('span#title.style-scope.ytd-rich-shelf-renderer')).find(span => span.textContent.trim() === 'Shorts');
 
+    if (targetSpan) {
+        let parentDivWithIdContent = targetSpan.closest('div#content');
+        console.log(parentDivWithIdContent);
 
-// Find the specific span element with id="title" and content "Shorts"
-let targetSpan = Array.from(document.querySelectorAll('span#title.style-scope.ytd-rich-shelf-renderer')).find(span => span.textContent.trim() === 'Shorts');
-
-// If the span is found, traverse upwards to find the closest parent <div> with id="content"
-if (targetSpan) {
-    let parentDivWithIdContent = targetSpan.closest('div#content');
-    console.log(parentDivWithIdContent);
-
-
-    // If the parent <div> with id="content" is found, delete it
-    if (parentDivWithIdContent) {
-        parentDivWithIdContent.remove();
+        if (parentDivWithIdContent) {
+            parentDivWithIdContent.remove();
+        }
     }
+
+    console.log("Shorts removal attempted");
 }
 
+// Check the status on content script load:
+chrome.storage.local.get('contentScriptStatus', function(data) {
+    if (data.contentScriptStatus) {
+        removeShorts();
+    }
+});
 
-console.log("Content script finished");
+// Listen for changes to the status:
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.action === "toggleContentScript") {
+        if (message.status) {
+            removeShorts();
+        }else{
+            location.reload();
+        }
+        // If disabling, you might need to reload the page or reverse any changes made.
+        // For example: location.reload();
+    }
+});
